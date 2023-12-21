@@ -1,0 +1,125 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>lbnet.lanterna.extras</groupId>
+    <artifactId>lbnet-lanterna-extras</artifactId>
+    <packaging>jar</packaging>
+    <version>0.0.3-SNAPSHOT</version>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.showDeprecation>true</maven.compiler.showDeprecation>
+        <maven.clean.failOnError>false</maven.clean.failOnError>
+        
+        <maven.compiler.release>8</maven.compiler.release>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+    </properties>
+
+    <distributionManagement>
+        <repository>
+            <id>repsy-lbnet-releases</id>
+            <url>https://repo.repsy.io/mvn/lilianne_blaze/lbnet-releases</url>
+        </repository>
+        <snapshotRepository>
+            <id>repsy-lbnet-snapshots</id>
+            <url>https://repo.repsy.io/mvn/lilianne_blaze/lbnet-snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+    <repositories>
+        <repository>
+            <id>repsy-lbnet-releases</id>
+            <url>https://repo.repsy.io/mvn/lilianne_blaze/lbnet-releases</url>
+            <releases>
+                <enabled>true</enabled>
+                <updatePolicy>daily</updatePolicy>
+                <checksumPolicy>fail</checksumPolicy>
+            </releases>
+        </repository>
+        <repository>
+            <id>repsy-lbnet-snapshots</id>
+            <url>https://repo.repsy.io/mvn/lilianne_blaze/lbnet-snapshots</url>
+            <snapshots>
+                <enabled>true</enabled>
+                <updatePolicy>always</updatePolicy>
+                <checksumPolicy>fail</checksumPolicy>
+            </snapshots>
+        </repository>
+    </repositories>
+	
+    <pluginRepositories>
+        <pluginRepository>
+            <id>repsy-lbnet-releases</id>
+            <url>https://repo.repsy.io/mvn/lilianne_blaze/lbnet-releases</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+        </pluginRepository>
+        <pluginRepository>
+            <id>repsy-lbnet-snapshots</id>
+            <url>https://repo.repsy.io/mvn/lilianne_blaze/lbnet-snapshots</url>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </pluginRepository>
+    </pluginRepositories>
+
+    <dependencies>
+
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.30</version>
+            <scope>provided</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.slf4j</groupId>
+            <artifactId>slf4j-api</artifactId>
+            <version>2.0.9</version>
+        </dependency>
+        <dependency>
+            <groupId>ch.qos.logback</groupId>
+            <artifactId>logback-classic</artifactId>
+            <version>1.4.14</version>
+            <optional>true</optional>
+        </dependency>
+
+    </dependencies>
+
+
+    <build>
+
+        <plugins>
+            
+            <plugin>
+                <groupId>net.revelc.code.formatter</groupId>
+                <artifactId>formatter-maven-plugin</artifactId>
+                <!-- 2.16.0 is the latest version that still supports Java 8 -->
+                <version>2.16.0</version>
+                <configuration>
+                    <lineEnding>LF</lineEnding>
+                    <directories>
+                        <directory>${project.build.sourceDirectory}</directory>
+                        <directory>${project.build.sourceDirectory}/../java-templates</directory>
+                        <directory>${project.build.directory}/generated-sources</directory>
+                        <directory>${project.build.testSourceDirectory}</directory>
+                    </directories>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>format</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+
+        </plugins>
+
+    </build>
+
+</project>
