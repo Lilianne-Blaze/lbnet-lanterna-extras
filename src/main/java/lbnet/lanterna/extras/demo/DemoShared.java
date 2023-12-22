@@ -2,6 +2,10 @@ package lbnet.lanterna.extras.demo;
 
 import com.googlecode.lanterna.terminal.Terminal;
 import java.io.IOException;
+import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.FormatStyle;
 
 public class DemoShared {
 
@@ -23,6 +27,17 @@ public class DemoShared {
                 }
 
             }
+        } catch (IOException e) {
+        }
+    }
+
+    public static void printDebugTimeDate(Terminal term) {
+        try {
+            // OffsetDateTime odt = OffsetDateTime.now();
+            ZonedDateTime zdt = ZonedDateTime.now();
+            DateTimeFormatter dtf = DateTimeFormatter.ofLocalizedDateTime(FormatStyle.LONG);
+            term.putString(dtf.format(zdt));
+            term.putCharacter('\n');
         } catch (IOException e) {
         }
     }

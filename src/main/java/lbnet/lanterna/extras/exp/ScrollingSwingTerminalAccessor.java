@@ -53,4 +53,38 @@ public class ScrollingSwingTerminalAccessor {
         }
     }
 
+    public static void forceRepaint(ScrollingSwingTerminal ssTerm) {
+        try {
+            SwingTerminal st = getSwingTerminal(ssTerm);
+
+            Field SwingTerminal_terminalImplementation = st.getClass().getDeclaredField("terminalImplementation");
+            SwingTerminal_terminalImplementation.setAccessible(true);
+            Object terminalImplementation = SwingTerminal_terminalImplementation.get(st);
+
+            Class class_GraphicalTerminalImplementation = terminalImplementation.getClass().getSuperclass();
+
+            Field GraphicalTerminalImplementation_virtualTerminal = class_GraphicalTerminalImplementation
+                    .getDeclaredField("virtualTerminal");
+            GraphicalTerminalImplementation_virtualTerminal.setAccessible(true);
+
+            Object virtualTerminal = GraphicalTerminalImplementation_virtualTerminal.get(terminalImplementation);
+
+            Field GraphicalTerminalImplementation_needFullRedraw = class_GraphicalTerminalImplementation
+                    .getDeclaredField("needFullRedraw");
+            GraphicalTerminalImplementation_needFullRedraw.setAccessible(true);
+
+            GraphicalTerminalImplementation_needFullRedraw.set(terminalImplementation, true);
+
+            st.repaint();
+        } catch (Exception e) {
+            throw new IllegalStateException("Reflection problem: " + e.toString(), e);
+            // if (!reflectionProblemsLogged) {
+            // String s = "Shouldn't happen. If it does either the implementation changed or reflection is not allowed.
+            // Either way ignore silently.";
+            // log.warn(s, e);
+            // reflectionProblemsLogged = true;
+            // }
+        }
+    }
+
 }
