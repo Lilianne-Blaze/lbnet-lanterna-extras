@@ -32,11 +32,10 @@ public class Demo5 {
         ssTerm = new ScrollingSwingTerminal2(tca);
         // -----
 
-        addKeyEvents();
-
         ssTerm.enableSGR(SGR.BOLD);
 
         frame = new SwingTerminalFrame("Demo5", ssTerm);
+        addKeyEvents();
 
         frame.makeFixedSize();
         frame.showCentered(0.2d, 0.4d);

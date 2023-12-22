@@ -6,6 +6,7 @@ import com.googlecode.lanterna.terminal.swing.SwingTerminal;
 import java.awt.GraphicsConfiguration;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
+import javax.swing.SwingUtilities;
 
 public class SwingTerminalFrame extends JFrame implements JFrameExtraMethods {
 
@@ -42,7 +43,7 @@ public class SwingTerminalFrame extends JFrame implements JFrameExtraMethods {
         add(getTerminalComponent());
     }
 
-    protected JComponent getTerminalComponent() {
+    public JComponent getTerminalComponent() {
         return scrollingSwingTerminal != null ? scrollingSwingTerminal : swingTerminal;
     }
 
@@ -54,10 +55,9 @@ public class SwingTerminalFrame extends JFrame implements JFrameExtraMethods {
     public void setVisible(boolean b) {
         super.setVisible(b);
         if (b) {
-            try {
+            SwingUtilities.invokeLater(() -> {
                 getTerminalComponent().requestFocusInWindow();
-            } catch (Exception e) {
-            }
+            });
         }
     }
 
