@@ -1,8 +1,7 @@
-package lbnet.lanterna.extras.demo;
+package lbnet.lanterna.extras.swing;
 
 import java.awt.Component;
 import java.util.function.Consumer;
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import lombok.extern.slf4j.Slf4j;
 

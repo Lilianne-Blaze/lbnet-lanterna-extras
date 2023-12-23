@@ -1,7 +1,8 @@
 package lbnet.lanterna.extras.demo;
 
+import lbnet.lanterna.extras.swing.SwingTerminalFrame;
 import com.googlecode.lanterna.SGR;
-import lbnet.lanterna.extras.exp.TermConstrArgs;
+import lbnet.lanterna.extras.swing.TermConstrArgs;
 import lbnet.lanterna.extras.swing.ScrollingSwingTerminal2;
 import lombok.extern.slf4j.Slf4j;
 

@@ -1,4 +1,4 @@
-package lbnet.lanterna.extras.demo;
+package lbnet.lanterna.extras.swing;
 
 import javax.swing.JComponent;
 import javax.swing.JFrame;

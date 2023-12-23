@@ -1,13 +1,14 @@
 package lbnet.lanterna.extras.demo;
 
+import lbnet.lanterna.extras.swing.SwingTerminalFrame;
 import com.googlecode.lanterna.SGR;
 import com.googlecode.lanterna.terminal.swing.SwingTerminal;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import javax.swing.JFrame;
 import javax.swing.JScrollBar;
-import lbnet.lanterna.extras.exp.ScrollingSwingTerminalAccessor;
-import lbnet.lanterna.extras.exp.TermConstrArgs;
+import lbnet.lanterna.extras.swing.ScrollingSwingTerminalAccessor;
+import lbnet.lanterna.extras.swing.TermConstrArgs;
 import lbnet.lanterna.extras.swing.ScrollingSwingTerminal2;
 import lombok.extern.slf4j.Slf4j;
 

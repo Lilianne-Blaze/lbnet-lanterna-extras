@@ -7,9 +7,6 @@ import com.googlecode.lanterna.terminal.swing.TerminalEmulatorDeviceConfiguratio
 import java.awt.event.KeyListener;
 import java.awt.event.MouseWheelEvent;
 import javax.swing.JScrollBar;
-import lbnet.lanterna.extras.exp.ExposingScrollingSwingTerminal;
-import lbnet.lanterna.extras.exp.ScrollingSwingTerminalAccessor;
-import lbnet.lanterna.extras.exp.TermConstrArgs;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;

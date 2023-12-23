@@ -1,4 +1,4 @@
-package lbnet.lanterna.extras.exp;
+package lbnet.lanterna.extras.swing;
 
 import com.googlecode.lanterna.terminal.swing.ScrollingSwingTerminal;
 import com.googlecode.lanterna.terminal.swing.SwingTerminal;
