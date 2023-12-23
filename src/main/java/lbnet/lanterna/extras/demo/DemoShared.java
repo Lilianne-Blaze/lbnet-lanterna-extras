@@ -1,14 +1,15 @@
 package lbnet.lanterna.extras.demo;
 
 import com.googlecode.lanterna.terminal.Terminal;
-import java.awt.Frame;
+import java.awt.Dimension;
+import java.awt.Graphics2D;
+import java.awt.Image;
+import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import java.io.IOException;
 import java.io.InputStream;
@@ -17,8 +18,6 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.FormatStyle;
 import java.util.function.Consumer;
 import javax.imageio.ImageIO;
-import javax.swing.JFrame;
-import javax.swing.WindowConstants;
 
 public class DemoShared {
 
@@ -75,6 +74,28 @@ public class DemoShared {
         });
     }
 
+    public static void addLeftClickListener(TrayIcon trayIcon, Consumer<MouseEvent> mouseEventListener) {
+        trayIcon.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getButton() == MouseEvent.BUTTON1) {
+                    mouseEventListener.accept(e);
+                }
+            }
+        });
+    }
+
+    public static void addRightClickListener(TrayIcon trayIcon, Consumer<MouseEvent> mouseEventListener) {
+        trayIcon.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseClicked(MouseEvent e) {
+                if (e.getButton() == MouseEvent.BUTTON3) {
+                    mouseEventListener.accept(e);
+                }
+            }
+        });
+    }
+
     public static void addDoubleClickListener(TrayIcon trayIcon, Consumer<ActionEvent> actionEventListener) {
         trayIcon.addActionListener(new ActionListener() {
             @Override
@@ -84,55 +105,19 @@ public class DemoShared {
         });
     }
 
-    public static void addIconifiedListener(Frame frame, Consumer<WindowEvent> windowEventListener) {
-        frame.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowIconified(WindowEvent e) {
-                windowEventListener.accept(e);
-            }
-        });
+    public static BufferedImage resizeImage(BufferedImage srcImg, int newW, int newH) {
+        Image tmp = srcImg.getScaledInstance(newW, newH, Image.SCALE_SMOOTH);
+        BufferedImage dstImg = new BufferedImage(newW, newH, BufferedImage.TYPE_INT_ARGB);
+
+        Graphics2D g2d = dstImg.createGraphics();
+        g2d.drawImage(tmp, 0, 0, null);
+        g2d.dispose();
+
+        return dstImg;
     }
 
-    public static void addWindowClosedListener(Frame frame, Consumer<WindowEvent> windowEventListener) {
-        frame.addWindowListener(new WindowAdapter() {
-            @Override
-            public void windowClosed(WindowEvent e) {
-                windowEventListener.accept(e);
-            }
-        });
+    public static BufferedImage resizeImage(BufferedImage srcImg, SystemTray sysTray) {
+        Dimension iconSize = sysTray.getTrayIconSize();
+        return resizeImage(srcImg, iconSize.width, iconSize.height);
     }
-
-    public static void iconify(Frame frame) {
-        try {
-            int es = frame.getExtendedState();
-            if ((es & Frame.ICONIFIED) == 0) {
-                frame.setExtendedState(es | Frame.ICONIFIED);
-            }
-        } catch (Exception e) {
-        }
-    }
-
-    public static void deiconify(Frame frame) {
-        try {
-            int es = frame.getExtendedState();
-            if ((es & Frame.ICONIFIED) != 0) {
-                frame.setExtendedState(es & ~Frame.ICONIFIED);
-            }
-        } catch (Exception e) {
-        }
-    }
-
-    public static void unhideDeiconifyAndFocus(Frame frame) {
-        frame.setVisible(true);
-        deiconify(frame);
-        frame.requestFocus(); // probably not needed, just in case
-    }
-
-    public static void configHideOnCloseOrIconify(JFrame frame) {
-        frame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
-        addIconifiedListener(frame, (t) -> {
-            frame.setVisible(false);
-        });
-    }
-
 }

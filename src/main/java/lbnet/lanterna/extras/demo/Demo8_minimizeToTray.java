@@ -2,7 +2,6 @@ package lbnet.lanterna.extras.demo;
 
 import lbnet.lanterna.extras.swing.SwingTerminalFrame;
 import com.googlecode.lanterna.SGR;
-import java.awt.Frame;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
@@ -12,6 +11,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
 import javax.swing.WindowConstants;
+import lbnet.lanterna.extras.swing.JFrameUtils;
 import lbnet.lanterna.extras.swing.TermConstrArgs;
 import lbnet.lanterna.extras.swing.ScrollingSwingTerminal2;
 import lombok.extern.slf4j.Slf4j;
@@ -67,7 +67,7 @@ public class Demo8_minimizeToTray {
         frame = new SwingTerminalFrame("Demo8", term);
 
         frame.setIconImage(imageIcoPng);
-        DemoShared.addIconifiedListener(frame, this::onWindowIconified);
+        JFrameUtils.addIconifiedListener(frame, this::onWindowIconified);
         frame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
 
         addKeyEvents();
@@ -111,7 +111,7 @@ public class Demo8_minimizeToTray {
 
     protected void onTrayIconDoubleClick(ActionEvent actionEvent) {
         log.info("Double-Click");
-        DemoShared.unhideDeiconifyAndFocus(frame);
+        frame.unhideDeiconifyAndFocus();
     }
 
     protected void onWindowIconified(WindowEvent windowEvent) {

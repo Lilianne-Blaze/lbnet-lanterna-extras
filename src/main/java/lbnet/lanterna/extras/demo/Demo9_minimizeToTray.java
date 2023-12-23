@@ -2,16 +2,13 @@ package lbnet.lanterna.extras.demo;
 
 import lbnet.lanterna.extras.swing.SwingTerminalFrame;
 import com.googlecode.lanterna.SGR;
-import java.awt.Frame;
 import java.awt.SystemTray;
 import java.awt.TrayIcon;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
-import javax.swing.WindowConstants;
 import lbnet.lanterna.extras.swing.TermConstrArgs;
 import lbnet.lanterna.extras.swing.ScrollingSwingTerminal2;
 import lombok.extern.slf4j.Slf4j;
@@ -23,7 +20,9 @@ public class Demo9_minimizeToTray {
 
     protected ScrollingSwingTerminal2 term;
 
-    protected BufferedImage imageIcoPng;
+    protected BufferedImage icoDarkRedPng;
+
+    protected BufferedImage icoDarkRedIco;
 
     protected SystemTray systemTray;
 
@@ -35,15 +34,19 @@ public class Demo9_minimizeToTray {
 
     public void start(String[] args) {
 
-        imageIcoPng = DemoShared.loadImageResource("META-INF/ico_dark_red.png");
+        icoDarkRedPng = DemoShared.loadImageResource("META-INF/ico_dark_red.png");
+        icoDarkRedIco = DemoShared.loadImageResource("META-INF/ico_dark_red.ico");
 
         try {
 
             systemTray = SystemTray.getSystemTray();
-            trayIcon = new TrayIcon(imageIcoPng, "Demo9");
+
+            BufferedImage scaledTrayIconPng = DemoShared.resizeImage(icoDarkRedPng, systemTray);
+            trayIcon = new TrayIcon(scaledTrayIconPng, "Demo9");
+
             systemTray.add(trayIcon);
 
-            DemoShared.addClickListener(trayIcon, this::onTrayIconClick);
+            DemoShared.addRightClickListener(trayIcon, this::onTrayIconRightClick);
             DemoShared.addDoubleClickListener(trayIcon, this::onTrayIconDoubleClick);
 
         } catch (Exception e) {
@@ -66,8 +69,8 @@ public class Demo9_minimizeToTray {
 
         frame = new SwingTerminalFrame("Demo9", term);
 
-        frame.setIconImage(imageIcoPng);
-        DemoShared.configHideOnCloseOrIconify(frame);
+        frame.setIconImage(icoDarkRedPng);
+        frame.configHideOnCloseOrIconify();
 
         addKeyEvents();
 
@@ -99,18 +102,13 @@ public class Demo9_minimizeToTray {
 
     }
 
-    protected void onTrayIconClick(MouseEvent mouseEvent) {
-        if (mouseEvent.getButton() == 3) {
-            log.info("R-Click, exiting.");
-            System.exit(0);
-        }
-
-        log.info("Click.");
+    protected void onTrayIconRightClick(MouseEvent mouseEvent) {
+        System.exit(0);
     }
 
     protected void onTrayIconDoubleClick(ActionEvent actionEvent) {
         log.info("Double-Click");
-        DemoShared.unhideDeiconifyAndFocus(frame);
+        frame.unhideDeiconifyAndFocus();
     }
 
 }

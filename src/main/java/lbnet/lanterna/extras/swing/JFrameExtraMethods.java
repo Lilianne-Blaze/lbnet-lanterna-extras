@@ -36,6 +36,18 @@ public interface JFrameExtraMethods {
         f.setVisible(true);
     }
 
+    public default void iconify() {
+        JFrameUtils.iconify(thisAsJFrame());
+    }
+
+    public default void deiconify() {
+        JFrameUtils.deiconify(thisAsJFrame());
+    }
+
+    public default void unhideDeiconifyAndFocus() {
+        JFrameUtils.unhideDeiconifyAndFocus(thisAsJFrame());
+    }
+
     public default void attemptFocusFirstComponent() {
         try {
             JFrame f = thisAsJFrame();
@@ -46,6 +58,10 @@ public interface JFrameExtraMethods {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    public default void configHideOnCloseOrIconify() {
+        JFrameUtils.configHideOnCloseOrIconify(thisAsJFrame());
     }
 
 }

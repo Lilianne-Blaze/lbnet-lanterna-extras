@@ -7,8 +7,6 @@ import java.awt.BorderLayout;
 import java.awt.GraphicsConfiguration;
 import javax.swing.JComponent;
 import javax.swing.JFrame;
-import javax.swing.JRootPane;
-import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import lombok.extern.slf4j.Slf4j;
 
