@@ -2,56 +2,24 @@ package lbnet.lanterna.extras.demo;
 
 import lbnet.lanterna.extras.swing.SwingTerminalFrame;
 import com.googlecode.lanterna.SGR;
-import java.awt.SystemTray;
-import java.awt.TrayIcon;
-import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.awt.image.BufferedImage;
 import lbnet.lanterna.extras.swing.TermConstrArgs;
 import lbnet.lanterna.extras.swing.ScrollingSwingTerminal2;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class Demo9_minimizeToTray {
+public class Demo06_simplest1 {
 
     protected SwingTerminalFrame frame;
 
     protected ScrollingSwingTerminal2 term;
 
-    protected BufferedImage icoDarkRedPng;
-
-    protected BufferedImage icoDarkRedIco;
-
-    protected SystemTray systemTray;
-
-    protected TrayIcon trayIcon;
-
     public static void main(String[] args) {
-        new Demo9_minimizeToTray().start(args);
+        new Demo06_simplest1().start(args);
     }
 
     public void start(String[] args) {
-
-        icoDarkRedPng = DemoShared.loadImageResource("META-INF/ico_dark_red.png");
-        icoDarkRedIco = DemoShared.loadImageResource("META-INF/ico_dark_red.ico");
-
-        try {
-
-            systemTray = SystemTray.getSystemTray();
-
-            BufferedImage scaledTrayIconPng = DemoShared.resizeImage(icoDarkRedPng, systemTray);
-            trayIcon = new TrayIcon(scaledTrayIconPng, "Demo9");
-
-            systemTray.add(trayIcon);
-
-            DemoShared.addRightClickListener(trayIcon, this::onTrayIconRightClick);
-            DemoShared.addDoubleClickListener(trayIcon, this::onTrayIconDoubleClick);
-
-        } catch (Exception e) {
-            throw new RuntimeException(e.toString(), e);
-        }
 
         // -----
         // use simplified constructor arguments
@@ -59,19 +27,15 @@ public class Demo9_minimizeToTray {
 
         // recommended size:
         // 18-24 for 1366 x 768 (100%)
-        tca = tca.fontSize(20);
-        tca = tca.cursorBlinking(true);
+        tca = tca.withFontSize(20);
+        tca = tca.withCursorBlinking(true);
 
         term = new ScrollingSwingTerminal2(tca);
         // -----
 
         term.enableSGR(SGR.BOLD);
 
-        frame = new SwingTerminalFrame("Demo9", term);
-
-        frame.setIconImage(icoDarkRedPng);
-        frame.configHideOnCloseOrIconify();
-
+        frame = new SwingTerminalFrame("Demo6", term);
         addKeyEvents();
 
         // make the frame have the optimal size for the terminal,
@@ -91,24 +55,24 @@ public class Demo9_minimizeToTray {
             @Override
             public void keyTyped(KeyEvent e) {
                 if (e.getKeyChar() == 'd') {
+
+                    log.info("2523 " + term.getSwingTerminal());
+                    log.info("2523 " + term.getTerminalSize());
+                    // log.info("2523 " + term.
+
+                    log.info("235235 bef " + term.getCursorPosition());
                     DemoShared.printDebugTimeDate(term);
                     term.repaint();
+                    log.info("235235 aft " + term.getCursorPosition());
                 } else if (e.getKeyChar() == 't') {
+                    log.info("235235 bef " + term.getCursorPosition());
                     DemoShared.printTestData1(term);
                     term.repaint();
+                    log.info("235235 aft " + term.getCursorPosition());
                 }
             }
         });
 
-    }
-
-    protected void onTrayIconRightClick(MouseEvent mouseEvent) {
-        System.exit(0);
-    }
-
-    protected void onTrayIconDoubleClick(ActionEvent actionEvent) {
-        log.info("Double-Click");
-        frame.unhideDeiconifyAndFocus();
     }
 
 }

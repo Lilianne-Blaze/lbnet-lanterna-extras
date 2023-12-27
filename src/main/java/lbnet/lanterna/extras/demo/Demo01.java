@@ -5,14 +5,14 @@ import javax.swing.JFrame;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class Demo1 {
+public class Demo01 {
 
     protected JFrame frame;
 
     protected ScrollingSwingTerminal ssTerm;
 
     public static void main(String[] args) {
-        new Demo1().start(args);
+        new Demo01().start(args);
     }
 
     public void start(String[] args) {

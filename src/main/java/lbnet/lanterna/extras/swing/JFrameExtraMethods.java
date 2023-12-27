@@ -4,6 +4,7 @@ import javax.swing.JComponent;
 import javax.swing.JFrame;
 import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
+import javax.swing.WindowConstants;
 
 public interface JFrameExtraMethods {
 
@@ -62,6 +63,10 @@ public interface JFrameExtraMethods {
 
     public default void configHideOnCloseOrIconify() {
         JFrameUtils.configHideOnCloseOrIconify(thisAsJFrame());
+    }
+
+    public default void configDisposeOnClose() {
+        thisAsJFrame().setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
     }
 
 }

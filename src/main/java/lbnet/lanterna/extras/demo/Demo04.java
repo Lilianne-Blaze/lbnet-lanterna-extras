@@ -13,14 +13,14 @@ import lbnet.lanterna.extras.swing.ScrollingSwingTerminal2;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class Demo4 {
+public class Demo04 {
 
     protected SwingTerminalFrame frame;
 
     protected ScrollingSwingTerminal2 ssTerm;
 
     public static void main(String[] args) {
-        new Demo4().start(args);
+        new Demo04().start(args);
     }
 
     public void start(String[] args) {
@@ -31,8 +31,8 @@ public class Demo4 {
 
         // recommended size:
         // 18-24 for 1366 x 768 (100%)
-        tca = tca.fontSize(20);
-        tca = tca.cursorBlinking(true);
+        tca = tca.withFontSize(20);
+        tca = tca.withCursorBlinking(true);
 
         ssTerm = new ScrollingSwingTerminal2(tca);
         // -----

@@ -8,42 +8,45 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.awt.event.WindowEvent;
 import java.awt.image.BufferedImage;
-import javax.swing.WindowConstants;
-import lbnet.lanterna.extras.swing.JFrameUtils;
 import lbnet.lanterna.extras.swing.TermConstrArgs;
 import lbnet.lanterna.extras.swing.ScrollingSwingTerminal2;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-public class Demo8_minimizeToTray {
+public class Demo09_minimizeToTray {
 
     protected SwingTerminalFrame frame;
 
     protected ScrollingSwingTerminal2 term;
 
-    protected BufferedImage imageIcoPng;
+    protected BufferedImage icoDarkRedPng;
+
+    protected BufferedImage icoDarkRedIco;
 
     protected SystemTray systemTray;
 
     protected TrayIcon trayIcon;
 
     public static void main(String[] args) {
-        new Demo8_minimizeToTray().start(args);
+        new Demo09_minimizeToTray().start(args);
     }
 
     public void start(String[] args) {
 
-        imageIcoPng = DemoShared.loadImageResource("META-INF/ico_dark_red.png");
+        icoDarkRedPng = DemoShared.loadImageResource("META-INF/ico_dark_red.png");
+        icoDarkRedIco = DemoShared.loadImageResource("META-INF/ico_dark_red.ico");
 
         try {
 
             systemTray = SystemTray.getSystemTray();
-            trayIcon = new TrayIcon(imageIcoPng, "Demo8");
+
+            BufferedImage scaledTrayIconPng = DemoShared.resizeImage(icoDarkRedPng, systemTray);
+            trayIcon = new TrayIcon(scaledTrayIconPng, "Demo9");
+
             systemTray.add(trayIcon);
 
-            DemoShared.addClickListener(trayIcon, this::onTrayIconClick);
+            DemoShared.addRightClickListener(trayIcon, this::onTrayIconRightClick);
             DemoShared.addDoubleClickListener(trayIcon, this::onTrayIconDoubleClick);
 
         } catch (Exception e) {
@@ -56,25 +59,30 @@ public class Demo8_minimizeToTray {
 
         // recommended size:
         // 18-24 for 1366 x 768 (100%)
-        tca = tca.fontSize(20);
-        tca = tca.cursorBlinking(true);
+        tca = tca.withFontSize(20);
+        tca = tca.withCursorBlinking(true);
 
         term = new ScrollingSwingTerminal2(tca);
         // -----
 
-        term.enableSGR(SGR.BOLD);
+        frame = new SwingTerminalFrame("Demo9", term);
 
-        frame = new SwingTerminalFrame("Demo8", term);
+        // term.putString("qwerty QWERTY 123456.\n");
+        // term.enableSGR(SGR.BOLD);
+        // term.putString("qwerty QWERTY 123456.\n");
 
-        frame.setIconImage(imageIcoPng);
-        JFrameUtils.addIconifiedListener(frame, this::onWindowIconified);
-        frame.setDefaultCloseOperation(WindowConstants.HIDE_ON_CLOSE);
+        frame.setIconImage(icoDarkRedPng);
+        frame.configHideOnCloseOrIconify();
 
         addKeyEvents();
 
         // make the frame have the optimal size for the terminal,
         // and make it non-resizeable
         frame.makeFixedSize();
+
+        term.putString("qwerty QWERTY 123456.\n");
+        term.enableSGR(SGR.BOLD);
+        term.putString("qwerty QWERTY 123456.\n");
 
         // show the frame slightly to the up-left from center
         frame.showCentered(0.2d, 0.4d);
@@ -100,23 +108,13 @@ public class Demo8_minimizeToTray {
 
     }
 
-    protected void onTrayIconClick(MouseEvent mouseEvent) {
-        if (mouseEvent.getButton() == 3) {
-            log.info("R-Click, exiting.");
-            System.exit(0);
-        }
-
-        log.info("Click.");
+    protected void onTrayIconRightClick(MouseEvent mouseEvent) {
+        System.exit(0);
     }
 
     protected void onTrayIconDoubleClick(ActionEvent actionEvent) {
         log.info("Double-Click");
         frame.unhideDeiconifyAndFocus();
-    }
-
-    protected void onWindowIconified(WindowEvent windowEvent) {
-        log.info("Iconified, hiding.");
-        frame.setVisible(false);
     }
 
 }
